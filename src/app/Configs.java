@@ -73,6 +73,7 @@ public class Configs {
                 salario = Entradas.lerInt(entrada);
                 empregado = new Assalariado(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salario);
                 System.out.println(empregado.printEmpregadoInfo());
+                System.out.println("Empregado foi adicionado\nao sistema com sucesso" );
                 break;
             case 2:
                 diaDoPagamento = "Quinzenal - Às sextas-feiras";
@@ -81,12 +82,17 @@ public class Configs {
                 System.out.println("Qual a comissão do empregado ?");
                 int comissao = Entradas.lerInt(entrada);
                 empregado = new Comissionado(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salario, comissao, null);
+                System.out.println(empregado.printEmpregadoInfo());
+                System.out.println("Empregado foi adicionado\nao sistema com sucesso" );
                 break;
             case 3:
                 diaDoPagamento = "Semanal - Às sextas-feiras";
                 System.out.println("Qual é o salario por hora trabalhada do empregado ?");
                 int salarioPorHora = Entradas.lerInt(entrada);
                 empregado = new Horista(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salarioPorHora);
+                System.out.println(empregado.printEmpregadoInfo());
+                System.out.println("Empregado foi adicionado\nao sistema com sucesso" );
+                System.out.println("--------------------------------------------\n");
                 break;
             default:
                 // tipoDeEmpregado inválido
@@ -112,7 +118,7 @@ public class Configs {
         System.out.println("=========== Lista de Empregados ============");
         for(Empregado empregado : listaDeEmpregados){
             System.out.println("============================================");
-            System.out.println("Empregado número " + n);
+            System.out.println("==================== "+n+" =====================");
             System.out.println("--------------------------------------------");
             if(op==1)System.out.println(empregado.printInfoBasica());
             else if(op==0) System.out.println(empregado.printEmpregadoInfo());
@@ -149,6 +155,7 @@ public class Configs {
             CartaoDePonto cartaoDePonto = new CartaoDePonto(data, horarioEntrada, horarioSaida);
             empregadoHorista.getCartaoDePonto().add(cartaoDePonto);
             System.out.println("Cartão de ponto adicionado com sucesso");
+            System.out.println("--------------------------------------------\n");
             return;
         }
     }
@@ -175,6 +182,7 @@ public class Configs {
             RelatorioDeVendas relatorioDeVendas = new RelatorioDeVendas(dataDeVenda, valorDeVenda);
             empregadoComissionado.getRelatorioDeVendas().add(relatorioDeVendas);
             System.out.println("Resultado de vendas adicionado com sucesso");
+            System.out.println("--------------------------------------------\n");
             return;
         }
     }
@@ -184,8 +192,9 @@ public class Configs {
         System.out.println("Insira o número do empregado cujo você deseja adicionar uma taxa de serviço:");
         int j = Entradas.lerInt(entrada);
         Empregado empregado = listaDeEmpregados.get(j);
-        if(empregado.getSindicato().getMembro() ==0){
+        if(empregado.getSindicato().getMembro() == 0){
             System.out.println("Não há como adicionar uma taxa de serviço,\no empregado escolhido não é membro do sindicato");
+            System.out.println("--------------------------------------------\n");
             return;
         }
         else{
@@ -196,6 +205,7 @@ public class Configs {
             int taxaDeServico = Entradas.lerInt(entrada);
             empregado.getSindicato().setTaxaDeServico(taxaDeServico);
             System.out.println("Taxa de serviço adicionada com sucesso");
+            System.out.println("--------------------------------------------\n");
             return;
         }
     }
@@ -237,6 +247,7 @@ public class Configs {
                     if(opt==1){
                         empregado.setName(novoNome);
                         System.out.println("Nome alterado com sucesso");
+                        System.out.println("--------------------------------------------\n");
                     }
                     break;
                 case 2:
@@ -251,7 +262,7 @@ public class Configs {
                     System.out.println("[1] Sim\n[2] Não");
                     opt = Entradas.lerInt(entrada);
                     if(opt==1){
-                        empregado.setName(novoEndereco);
+                        empregado.setEndereco(novoEndereco);
                         System.out.println("Endereço alterado com sucesso");
                         System.out.println("--------------------------------------------\n");
                     }
@@ -266,7 +277,6 @@ public class Configs {
                         System.out.println("--------------------------------------------\n");
                     }
                     else{
-                        Empregado novoEmpregado;
                         String diaDoPagamento = "";
                         int salario=0;
                         switch (opt) {
@@ -276,9 +286,9 @@ public class Configs {
                                 System.out.println("Qual o salário do empregado ?");
                                 salario = Entradas.lerInt(entrada);
                                 System.out.println(empregado.printEmpregadoInfo());
-                                novoEmpregado = new Assalariado(empregado.getName(), empregado.getId(), empregado.getEndereco(), 1, empregado.getSindicato(), empregado.getPagamento(), diaDoPagamento, salario);
+                                empregado = new Assalariado(empregado.getName(), empregado.getId(), empregado.getEndereco(), 1, empregado.getSindicato(), empregado.getPagamento(), diaDoPagamento, salario);
                                 //Substituindo o 'antigo empregado' da lista
-                                listaDeEmpregados.set(j, novoEmpregado);
+                                listaDeEmpregados.set(j, empregado);
                                 break;
                             case 2:
                                 // Comissionado
@@ -287,15 +297,17 @@ public class Configs {
                                 salario = Entradas.lerInt(entrada);
                                 System.out.println("Qual a comissão do empregado ?");
                                 int comissao = Entradas.lerInt(entrada);
-                                novoEmpregado = new Comissionado(empregado.getName(), empregado.getId(), empregado.getEndereco(), 2, empregado.getSindicato(), empregado.getPagamento(), diaDoPagamento, salario, comissao, null);
+                                empregado = new Comissionado(empregado.getName(), empregado.getId(), empregado.getEndereco(), 2, empregado.getSindicato(), empregado.getPagamento(), diaDoPagamento, salario, comissao, null);
                                 //Substituindo o 'antigo empregado' da lista
-                                listaDeEmpregados.set(j, novoEmpregado);
+                                listaDeEmpregados.set(j, empregado);
                                 break;
                             case 3:
                                 diaDoPagamento = "Semanal - Às sextas-feiras";
                                 System.out.println("Qual é o salario por hora trabalhada do empregado ?");
                                 int salarioPorHora = Entradas.lerInt(entrada);
                                 empregado = new Horista(empregado.getName(), empregado.getId(), empregado.getEndereco(), 3, empregado.getSindicato(), empregado.getPagamento(), diaDoPagamento, salarioPorHora);
+                                //Substituindo o 'antigo empregado' da lista
+                                listaDeEmpregados.set(j, empregado);
                                 break;
                             default:
                                 System.out.println("Opção inválida, tente novamente");
@@ -414,41 +426,55 @@ public class Configs {
         int Sexta = 0;
         LocalDate data  = inicio;
         int tam = listaDeEmpregados.size();
-        int aux,aux2,flag=0;
+        int aux,aux2,flag=0,flag2=0;
         String dataFormatada;
         for( aux = 0; aux <= periodo ; aux++){
             data = inicio.plusDays(aux);
             dataFormatada = data.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL));
             if(data.isEqual(checarUltimoDiaDoMes(data.with(TemporalAdjusters.lastDayOfMonth())))){
                 flag=1;
-                System.out.println("============================================");
-                System.out.println("========== Último dia útil do mês ==========");
-                System.out.println("===== " + dataFormatada + " ====");
-                System.out.println("--------------------------------------------\n");
                 for(aux2=0;aux2<tam;aux2++){
                     if(listaDeEmpregados.get(aux2).getDiaDoPagamento()=="Mensal - Último dia do mês"){
+                        if(flag2==0){
+                            System.out.println("============================================");
+                            System.out.println("========== Último dia útil do mês ==========");
+                            System.out.println("===== " + dataFormatada + " ====");
+                            System.out.println("--------------------------------------------\n");
+                            flag2=1;
+                        }
                         System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
                     }
                 }
+                flag2=0;
             }
 
             if(data.getDayOfWeek() == DayOfWeek.FRIDAY){
                 flag=1;
-                System.out.println("============================================");
-                System.out.println("===== " + dataFormatada + " ====");
-                System.out.println("--------------------------------------------\n");
                 if(Sexta % 2 == 0){
                     for(aux2=0;aux2<tam;aux2++){
                         if(listaDeEmpregados.get(aux2).getDiaDoPagamento()=="Quinzenal - Às sextas-feiras"){
+                            if(flag2==0){
+                                System.out.println("============================================");
+                                System.out.println("===== " + dataFormatada + " ====");
+                                System.out.println("--------------------------------------------\n");
+                                flag2=1;
+                            }
                             System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
                         }
                     }
                 }
                 for(aux2=0;aux2<tam;aux2++){
                     if(listaDeEmpregados.get(aux2).getDiaDoPagamento() == "Semanal - Às sextas-feiras"){
+                        if(flag2==0){
+                            System.out.println("============================================");
+                            System.out.println("===== " + dataFormatada + " ====");
+                            System.out.println("--------------------------------------------\n");
+                            flag2=1;
+                        }
                         System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
                     }
-                }                
+                }
+                flag2=0;                
             }
             Sexta++;
         }   
