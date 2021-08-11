@@ -2,7 +2,6 @@ package app;
 import java.util.*;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import model.*;
 import model.empregados.*;
 import model.empresa.FolhaDePagamento;
 import model.empresa.Pagamento;
@@ -16,12 +15,16 @@ public class App {
         // input
         Sindicato sindicato = new Sindicato(200, 100, UUID.randomUUID(), 1);
         Pagamento pagamento = new Pagamento(1, "Banco do Brasil", 550, 999187180);
-        String diaDoPagamentoAssalariado = "Mensal - Último dia do mês",diaDoPagamentoComissionado = "Quinzenal - Às sextas-feiras",diaDoPagamentoHorista = "Semanal - Às sextas-feiras";; 
-
+        String diaDoPagamentoAssalariado = "Mensal - Último dia do mês",diaDoPagamentoComissionado = "Quinzenal - Às sextas-feiras",diaDoPagamentoHorista = "Semanal - Às sextas-feiras";
         Empregado empregado = null;
         List<Empregado> listaDeEmpregados = new ArrayList<Empregado>();
         FolhaDePagamento folhaDePagamento = new FolhaDePagamento();
-
+        empregado = new Assalariado("Marcelo Alves", UUID.randomUUID(), "Rua José Bonifácio", 1, sindicato, pagamento, diaDoPagamentoAssalariado, 1050);
+        listaDeEmpregados.add(empregado);
+        empregado = new Comissionado("Rayssa Leal", UUID.randomUUID(), "Rua Coaracy da Mata", 2, sindicato, pagamento, diaDoPagamentoComissionado, 1050, 50, null);
+        listaDeEmpregados.add(empregado);
+        empregado = new Horista("Joaquim Fênix", UUID.randomUUID(), "Gotham City", 3, sindicato, pagamento, diaDoPagamentoHorista, 40);
+        listaDeEmpregados.add(empregado);
         //
         int op = -1;
 
@@ -33,12 +36,13 @@ public class App {
             System.out.println("[0] Sair");
             System.out.println("[1] Registrar um novo empregado");
             System.out.println("[2] Remover um empregado do sistema");
-            System.out.println("[3] Lançar um 'cartão de ponto'");
+            System.out.println("[3] Lançar um cartão de ponto");
             System.out.println("[4] Lançar um resultado de venda");
             System.out.println("[5] Lançar uma taxa de serviço");
             System.out.println("[6] Alterar detalhes de um empregado");
             System.out.println("[7] Rodar a folha de pagamento para hoje");
             System.out.println("[8] Criar nova agenda de pagamento");
+            System.out.println("[9] Lista de todos empregados do sistema");
             System.out.println("...");
             op = Entradas.lerInt(entrada);
             switch (op) {
@@ -52,14 +56,9 @@ public class App {
                     TimeUnit.SECONDS.sleep(1);
                     System.out.println("============================================");
                     System.out.println("Opção 1 selecionada");
-                    //listaDeEmpregados.add(Configs.novoEmpregado(entrada));
-                    empregado = new Empregado("Maselo", UUID.randomUUID(), "Rua Deide Costa", 1, sindicato, pagamento, diaDoPagamentoAssalariado);
+                    
+                    empregado = Configs.novoEmpregado(entrada);
                     listaDeEmpregados.add(empregado);
-                    empregado = new Empregado("Joana", UUID.randomUUID(), "Rua Deide Lado", 2, sindicato, pagamento, diaDoPagamentoComissionado);
-                    listaDeEmpregados.add(empregado);
-                    empregado = new Empregado("Rayssa", UUID.randomUUID(), "Rua Deide Frente", 3, sindicato, pagamento, diaDoPagamentoHorista);
-                    listaDeEmpregados.add(empregado);
-                    //empregado = Configs.novoEmpregado(entrada);
                     break;
                 case 2:
                     TimeUnit.SECONDS.sleep(1);
@@ -104,6 +103,20 @@ public class App {
                     System.out.println("Opção 7 selecionada");
                     if(listaDeEmpregados.isEmpty()) System.out.println("Não há nenhum empregado registrado no sitema.");
                     else Configs.rodarFolhaDePagamento(entrada, listaDeEmpregados, folhaDePagamento);
+                    break;
+                case 8:
+                    TimeUnit.SECONDS.sleep(1);
+                    System.out.println("============================================");
+                    System.out.println("Opção 8 selecionada");
+                    if(listaDeEmpregados.isEmpty()) System.out.println("Não há nenhum empregado registrado no sitema.");
+                    else Configs.criarAgenda(entrada, folhaDePagamento);
+                    break;
+                case 9:
+                    TimeUnit.SECONDS.sleep(1);
+                    System.out.println("============================================");
+                    System.out.println("Opção 9 selecionada");
+                    if(listaDeEmpregados.isEmpty()) System.out.println("Não há nenhum empregado registrado no sitema.\n Não há como alterar os detalhes de ninguém");
+                    else Configs.printTodosEmpregados(entrada, listaDeEmpregados, 1);
                     break;
                 default:
                     break;

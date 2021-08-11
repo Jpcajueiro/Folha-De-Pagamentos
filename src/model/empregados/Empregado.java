@@ -108,6 +108,8 @@ public class Empregado{
         "Tipo de empregado: " + checarTipoDeEmpregado()+
         "\n--------------------------------------------\n"+
         "Método de pagamento: " + pagamento.printMetodoDePagamento()+
+        "\n--------------------------------------------\n"+
+        "Dia do pagamento: " + getDiaDoPagamento()+
         "\n--------------------------------------------\n";
         }
     

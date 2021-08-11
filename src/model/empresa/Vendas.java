@@ -1,7 +1,6 @@
 package model.empresa;
 import model.empregados.*;
 import java.time.LocalDate;
-import model.empregados.*;
 
 public class Vendas extends FolhaDePagamento{
     private Double percentualDeVendas;

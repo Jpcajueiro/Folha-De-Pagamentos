@@ -1,15 +1,13 @@
 package model.empresa;
-import java.util.List;
-
 import model.empregados.*;
 
 public class Salario extends FolhaDePagamento{
-    public Double valor;
-    public Double taxas;
-    public Double horasExtras;
+    public int valor;
+    public int taxas;
+    public int horasExtras;
     public Vendas vendas;
 
-    public Salario(Empresa empresa, Empregado empregado, Salario salario, String cronograma, Double valor, Double taxas,Double horasExtras, Vendas vendas) {
+    public Salario(Empresa empresa, Empregado empregado, Salario salario, String cronograma, int valor, int taxas,int horasExtras, Vendas vendas) {
         super(empresa, empregado, salario, cronograma);
         this.valor = valor;
         this.taxas = taxas;
@@ -17,27 +15,27 @@ public class Salario extends FolhaDePagamento{
         this.vendas = vendas;
     }
 
-    public Double getValor() {
+    public int getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(int valor) {
         this.valor = valor;
     }
 
-    public Double getTaxas() {
+    public int getTaxas() {
         return taxas;
     }
 
-    public void setTaxas(Double taxas) {
+    public void setTaxas(int taxas) {
         this.taxas = taxas;
     }
 
-    public Double getHorasExtras() {
+    public int getHorasExtras() {
         return horasExtras;
     }
 
-    public void setHorasExtras(Double horasExtras) {
+    public void setHorasExtras(int horasExtras) {
         this.horasExtras = horasExtras;
     }
 

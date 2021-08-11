@@ -1,22 +1,17 @@
 package app;
-import model.*;
 import model.empregados.*;
 import model.empresa.*;
 import java.util.*;
 import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.zone.ZoneRulesProvider;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javax.print.attribute.standard.PrinterName;
+
 import java.time.temporal.*;
 import java.time.format.DateTimeFormatter;
-import jdk.jshell.execution.Util;
 import java.time.format.FormatStyle;
 
 import java.time.temporal.TemporalAdjusters;
@@ -112,13 +107,16 @@ public class Configs {
 
     public static void printTodosEmpregados(Scanner entrada, List<Empregado> listaDeEmpregados, int op) {
         int n = 0;
+        // op = 0 Printa tudo , op  = 1 basico, op = qlqr coisa Printa pagamento
         System.out.println("============================================");
         System.out.println("=========== Lista de Empregados ============");
         for(Empregado empregado : listaDeEmpregados){
             System.out.println("============================================");
             System.out.println("Empregado número " + n);
+            System.out.println("--------------------------------------------");
             if(op==1)System.out.println(empregado.printInfoBasica());
-            else System.out.println(empregado.printEmpregadoInfo());
+            else if(op==0) System.out.println(empregado.printEmpregadoInfo());
+            else System.out.println(empregado.printInfoPagamento());
             n++;
         }
     }
@@ -405,11 +403,11 @@ public class Configs {
 
     public static void rodarFolhaDePagamento(Scanner entrada,List<Empregado> listaDeEmpregados, FolhaDePagamento folhaDePagamento) {    
         // printTodosEmpregados(entrada, listaDeEmpregados, 0);
+        System.out.println("--------------------------------------------\n");
         System.out.println("Insira a data de início: ");
-        System.out.println("--------------------------------------------\n");
         LocalDate inicio = Entradas.lerData(entrada);
-        System.out.println("Insira a data de término: ");
         System.out.println("--------------------------------------------\n");
+        System.out.println("Insira a data de término: ");
         LocalDate fim = Entradas.lerData(entrada);
         long periodo = ChronoUnit.DAYS.between(inicio, fim);
         //auxiliares
@@ -424,8 +422,9 @@ public class Configs {
             if(data.isEqual(checarUltimoDiaDoMes(data.with(TemporalAdjusters.lastDayOfMonth())))){
                 flag=1;
                 System.out.println("============================================");
-                System.out.println("======== Mensal - Último dia do mês ========");
-                System.out.println("===== " + dataFormatada + " =====");
+                System.out.println("========== Último dia útil do mês ==========");
+                System.out.println("===== " + dataFormatada + " ====");
+                System.out.println("--------------------------------------------\n");
                 for(aux2=0;aux2<tam;aux2++){
                     if(listaDeEmpregados.get(aux2).getDiaDoPagamento()=="Mensal - Último dia do mês"){
                         System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
@@ -433,35 +432,58 @@ public class Configs {
                 }
             }
 
-            if(data.getDayOfWeek() == DayOfWeek.FRIDAY && Sexta % 2 == 0){
+            if(data.getDayOfWeek() == DayOfWeek.FRIDAY){
                 flag=1;
                 System.out.println("============================================");
-                System.out.println("======= Quinzenal - Às sextas-feiras =======");
-                System.out.println("===== " + dataFormatada + " =====");
-                for(aux2=0;aux2<tam;aux2++){
-                    if(listaDeEmpregados.get(aux2).getDiaDoPagamento()=="Quinzenal - Às sextas-feiras"){
-                        System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
+                System.out.println("===== " + dataFormatada + " ====");
+                System.out.println("--------------------------------------------\n");
+                if(Sexta % 2 == 0){
+                    for(aux2=0;aux2<tam;aux2++){
+                        if(listaDeEmpregados.get(aux2).getDiaDoPagamento()=="Quinzenal - Às sextas-feiras"){
+                            System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
+                        }
                     }
                 }
-            }
-            Sexta++;
-
-            if(data.getDayOfWeek() ==  DayOfWeek.FRIDAY){
-                flag=1;
-                System.out.println("============================================");
-                System.out.println("======== Semanal - Às sextas-feiras ========");
-                System.out.println("===== " + dataFormatada + " =====");
                 for(aux2=0;aux2<tam;aux2++){
                     if(listaDeEmpregados.get(aux2).getDiaDoPagamento() == "Semanal - Às sextas-feiras"){
                         System.out.println(listaDeEmpregados.get(aux2).printInfoPagamento());
                     }
-                }
+                }                
             }
+            Sexta++;
         }   
         if(flag==0){
-            System.out.println("--------------------------------------------\n");
+            System.out.println("--------------------------------------------");
             System.out.println("Não nenhum funcionário há ser pago\n no intervalo de tempo inserido");
             System.out.println("--------------------------------------------\n");
         }
+    }
+
+    public static void printAgenda(List<String> cronograma){
+        int tam = cronograma.size();
+        int aux;
+        for (aux=0;aux<tam;aux++){
+            System.out.println(cronograma.get(aux));
+        }
+    }
+
+    public static void criarAgenda(Scanner entrada, FolhaDePagamento folhaDePagamento) {
+        System.out.println("============================================");
+        System.out.println("========= Nova agenda de pagamento =========");
+        System.out.println("--------------------------------------------");
+        System.out.println("Você pode criar uma nova agenda de pagamentos\n");
+        System.out.println("Mensal 1: paga todo dia 1");
+        System.out.println("Semanal 2 Terça: paga quinzenalmente as terças");
+        System.out.println("Semanal 1 Segunda: paga toda segunda-feira\n");
+        System.out.println("--------------------------------------------");
+        System.out.println("Digite o novo cronograma");
+        String cronograma = Entradas.lerString(entrada);
+        folhaDePagamento.cronograma.add(cronograma);
+        System.out.println("--------------------------------------------");
+        System.out.println("Nova agenda de pagamentos criada com sucesso");
+        System.out.println("--------------------------------------------");
+        System.out.println("Agora temos essas opçções de agendas:");
+        printAgenda(folhaDePagamento.cronograma);
+        System.out.println("--------------------------------------------");
     }
 }
