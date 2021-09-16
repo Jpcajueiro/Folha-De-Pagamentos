@@ -1,4 +1,4 @@
-# Folha de Pagamentos
+# Folha de Pagamentos :receipt:	:moneybag:
 O objetivo do projeto é construir um sistema de folha de pagamento. O sistema consiste do
 gerenciamento de pagamentos dos empregados de uma empresa. Além disso, o sistema deve
 gerenciar os dados destes empregados, a exemplo os cartões de pontos. Empregados devem receber
@@ -69,9 +69,15 @@ Func | Título | Breve descrição
 
 ## Template Method
 Para esse tipo de solução, o problema apresentado se comporta da seguinte forma: Há uma série de passos que é repetida na mesma ordem, mas com alguma alteração que faz com que não sejam exatamente iguais. Esse padrão de projeto comportamental define o esqueleto de um algoritmo na superclasse mas deixa as subclasses sobrescreverem etapas específicas do algoritmo sem modificar sua estrutura.
-  * O problema foi solucionado com a implementação da classe **Auxiliar**, com vários métodos criados para reduzir a quantidade de código duplicado. _Métodos **empregadoViaTipo**, **estruturaMudarEmpregadoInfo** e **estruturaFolhaDePagamento**_ são exemplos. 
-  MOSTRAR ANTES E DEPOIS 
+  * O problema foi solucionado com a implementação da classe **Auxiliar**, com vários métodos criados para reduzir a quantidade de código duplicado. _Métodos **empregadoViaTipo**, **estruturaMudarEmpregadoInfo** e **estruturaFolhaDePagamento**_ são exemplos.
+  * **Antes**
+      * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L21)
+      * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L213)
+      * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L416)
+// atualizar links
 
+  * **Depois**
+    * 
 ## Handle Exceptcions
   * Para tratar as exceptions existentes no código,a classe **Entradas**, a qual possui métodos para tratar a leitura de Int, String, etcs. Foi atualizada para que os métodos utilizem _try/catch_.
 
@@ -82,3 +88,7 @@ Para esse tipo de solução, o problema apresentado se comporta da seguinte form
   ANTES/ DEPOIS
   * O _método **novoEmpregado**_, da classe **Configs** configura um bad smell _Long Method_, e o mesmo foi refatorado, sendo dividido com a classe **Auxiliar** e seus métodos.
   Antes/Depois
+
+  * Foi criado o _método **limparConsole**_, que pode ser chamado pelo usuário para limpar o console.
+
+  * Alguns métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.

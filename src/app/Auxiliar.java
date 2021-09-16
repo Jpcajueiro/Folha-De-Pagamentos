@@ -29,10 +29,10 @@ public class Auxiliar {
         FolhaDePagamento folhaDePagamento = new FolhaDePagamento();
         System.out.println("============================================");
         System.out.println("Opção " +op+ " selecionada");
-       /* if(op >=2 && op<=9 && listaDeEmpregados.isEmpty()){
+        if(op >=2 && op<=9 && listaDeEmpregados.isEmpty()){
             System.out.println("Não há nenhum empregado registrado no sistema.");
             return;
-        }*/
+        }
         switch (op) {
             case 0:
                 System.out.println("Obrigado por usar nosso sistesma");
@@ -64,6 +64,9 @@ public class Auxiliar {
                 break;
             case 9:
                 Configs.printTodosEmpregados(entrada, listaDeEmpregados, 1);
+                break;
+            case 10:
+                Auxiliar.limparConsole();
                 break;
             default:
                 break;
@@ -97,7 +100,7 @@ public class Auxiliar {
                 diaDoPagamento = "Mensal - Último dia do mês"; 
                 salario = Entradas.lerInt(entrada,"Qual o salário do empregado ?");
                 if(isNew == 1) {
-                    empregado = new Assalariado(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salario);
+                    empregado = new Assalariado(name, UUID.randomUUID(), endereco, 1, sindicato, pagamento, diaDoPagamento, salario);
                     listaDeEmpregados.add(empregado);
                     empregado.printEmpregadoInfo();
                 }
@@ -113,7 +116,7 @@ public class Auxiliar {
                 salario = Entradas.lerInt(entrada,"Qual o salário do empregado ?");
                 int comissao = Entradas.lerInt(entrada,"Qual a comissão do empregado ?");
                 if (isNew == 1) {
-                    empregado = new Comissionado(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salario, comissao, null);
+                    empregado = new Comissionado(name, UUID.randomUUID(), endereco, 2, sindicato, pagamento, diaDoPagamento, salario, comissao, null);
                     listaDeEmpregados.add(empregado);
                 }
                 else{
@@ -127,7 +130,7 @@ public class Auxiliar {
                 diaDoPagamento = "Semanal - Às sextas-feiras";
                 int salarioPorHora = Entradas.lerInt(entrada,"Qual o salário por hora do empregado ?");
                 if(isNew==1){
-                    empregado = new Horista(name, UUID.randomUUID(), endereco, tipoDeEmpregado, sindicato, pagamento, diaDoPagamento, salarioPorHora);
+                    empregado = new Horista(name, UUID.randomUUID(), endereco, 3, sindicato, pagamento, diaDoPagamento, salarioPorHora);
                     listaDeEmpregados.add(empregado);
                 }
                 else{
@@ -259,14 +262,13 @@ public class Auxiliar {
     }
     public static void mudarTipoDeEmpregado(Scanner entrada, Empregado empregado, List<Empregado> listaDeEmpregados,int numEmpregado) {
         System.out.println("============================================");
-        int opt = Entradas.lerInt(entrada,"Digite o novo tipo de empregado a ser atribuído:\n [1] Assalariado [2] Comissionado [3] Horista");
+        int opt = Entradas.lerEntre(entrada,"Digite o novo tipo de empregado a ser atribuído:\n [1] Assalariado [2] Comissionado [3] Horista",1,3);
         if(opt == empregado.getTipoDeEmpregado()){
             System.out.println("O empregado já é do tipo selecionado, tente novamente.");
             System.out.println("--------------------------------------------\n");
         }
         else{
-            empregadoViaTipo(entrada, 0, empregado.getName(), empregado.getEndereco(), empregado.getTipoDeEmpregado(), empregado.getSindicato(), empregado.getPagamento(), listaDeEmpregados, numEmpregado);
-            System.out.println(empregado.printEmpregadoInfo());
+            empregadoViaTipo(entrada, 0, empregado.getName(), empregado.getEndereco(), opt, empregado.getSindicato(), empregado.getPagamento(), listaDeEmpregados, numEmpregado);
             System.out.println("Empregado foi alterado\nno sistema com sucesso" );
             System.out.println("--------------------------------------------\n");
         }
@@ -290,6 +292,7 @@ public class Auxiliar {
        } else {
             empregado.getSindicato().setMembro(0);
             empregado.getSindicato().setIdSindicato(new UUID(0,0));
+            empregado.getSindicato().setTaxaDeServico(0);
             System.out.println("Alteração feita com sucesso.\nAgora o empregado não é membro do sindicato");
             System.out.println("--------------------------------------------\n");
        } 

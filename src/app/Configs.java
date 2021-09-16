@@ -123,11 +123,12 @@ public class Configs {
     public static void mudarInfoEmpregado(Scanner entrada,List<Empregado> listaDeEmpregados) {
         printTodosEmpregados(entrada, listaDeEmpregados,0);
         int numEmpregado = Entradas.lerInt(entrada,"Escolha o número correspondente ao empregado cujos dados serão alterados:");
-        Empregado empregado = listaDeEmpregados.get(numEmpregado);
         int op=-1;
         while(op!=0){
             System.out.println("--------------------------------------------");
+            Empregado empregado = listaDeEmpregados.get(numEmpregado);
             System.out.println(empregado.printEmpregadoInfo());
+            //System.out.println(empregado.printEmpregadoInfo());
             System.out.println("Selecione o dado que deseja alterar:\n");
             System.out.println("[0] Voltar ao menu inicial");
             System.out.println("[1] Mudar nome");
@@ -138,7 +139,7 @@ public class Configs {
             System.out.println("[6] Mudar ID do sindicato");
             System.out.println("[7] Mudar taxa de serviço do sindicato");
             System.out.println("...");
-            op = Entradas.lerInt(entrada,"");
+            op = Entradas.lerEntre(entrada,"",0,7);
             Auxiliar.estruturaMudarEmpregadoInfo(op, empregado, entrada, listaDeEmpregados, numEmpregado);
         }
     }
