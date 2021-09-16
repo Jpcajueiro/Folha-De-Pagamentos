@@ -71,24 +71,25 @@ Func | Título | Breve descrição
 Para esse tipo de solução, o problema apresentado se comporta da seguinte forma: Há uma série de passos que é repetida na mesma ordem, mas com alguma alteração que faz com que não sejam exatamente iguais. Esse padrão de projeto comportamental define o esqueleto de um algoritmo na superclasse mas deixa as subclasses sobrescreverem etapas específicas do algoritmo sem modificar sua estrutura.
   * O problema foi solucionado com a implementação da classe **Auxiliar**, com vários métodos criados para reduzir a quantidade de código duplicado. _Métodos **empregadoViaTipo**, **estruturaMudarEmpregadoInfo** e **estruturaFolhaDePagamento**_ são exemplos.
   * **Antes**
-      * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L21)
-      * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L213)
-      * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L416)
-// atualizar links
-
+      * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L21)
+      * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L213)
+      * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L438)
   * **Depois**
-    * 
+      * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L21)
+      * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L123)
+      * [estruturaMudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L189)
+        * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L199)
+        * [estruturaFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L167)
+  
 ## Handle Exceptcions
-  * Para tratar as exceptions existentes no código,a classe **Entradas**, a qual possui métodos para tratar a leitura de Int, String, etcs. Foi atualizada para que os métodos utilizem _try/catch_.
+  * Para tratar as exceptions existentes no código,a classe [Entradas](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Entradas.java), a qual possui métodos para tratar a leitura de Int, String, etcs. Foi atualizada para que os métodos utilizem [try/catch](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Entradas.java#L17).
 
-  ## Outras alterações
-  * Um bad smell do tipo _código duplicado_ estava presente na classe **App** _método **Main**, o qual havia repetição na verificação do tamanho da lista, em todos os casos, e sempre que estava vazia, ocorria um break. Para retirar essa repetição, foi colocado  um único condicional if antes do switch case.
- antes/depois
-  * A classe **Configs** era um bad smell _Large Class_ e foi dividida em duas, sendo criada a classe **Auxiliar** que conta com implementações novas (templates), e algumas coisas já existentes na antiga classe.
-  ANTES/ DEPOIS
+## Outras alterações
+  * Um bad smell do tipo _código duplicado_ estava presente na classe **App** _método **Main**_, o qual havia repetição na verificação do tamanho da lista, em todos os casos, e sempre que estava vazia, ocorria um break. Para retirar essa repetição, foi colocado  um único condicional if antes do switch case.
+    * [Antes](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/App.java#L71)
+    * [Depois](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L32)
+ 
+  * A classe **Configs** era um bad smell _Large Class_ e foi dividida em duas, sendo criada a classe [Auxiliar](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java) que conta com implementações novas (_templates_), e algumas coisas já existentes na antiga classe.
   * O _método **novoEmpregado**_, da classe **Configs** configura um bad smell _Long Method_, e o mesmo foi refatorado, sendo dividido com a classe **Auxiliar** e seus métodos.
-  Antes/Depois
-
-  * Foi criado o _método **limparConsole**_, que pode ser chamado pelo usuário para limpar o console.
-
+  * Foi criado o _método_ [limparConsole](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L16), que pode ser chamado pelo usuário para limpar o console.
   * Alguns métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.
