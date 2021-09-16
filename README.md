@@ -1,4 +1,4 @@
-# Folha de Pagamentos
+# Folha de Pagamentos :receipt:	:moneybag:
 O objetivo do projeto é construir um sistema de folha de pagamento. O sistema consiste do
 gerenciamento de pagamentos dos empregados de uma empresa. Além disso, o sistema deve
 gerenciar os dados destes empregados, a exemplo os cartões de pontos. Empregados devem receber
@@ -43,3 +43,52 @@ Func | Título | Breve descrição
 **8** | Undo/redo | Qualquer transação associada as funcionalidades **1** a **7**  deve ser _desfeita_ (*undo*) ou _refeita_ (*redo*).
 **9** | Agenda de Pagamento | Cada empregado é pago de acordo com uma "_agenda de  pagamento_". Empregados podem selecionar a agenda de  pagamento que desejam. Por _default_, as agendas  "_semanalmente_", "_mensalmente_" e "_bi-semanalmente_" são usadas, como explicado na descrição geral. Posteriormente, um empregado pode pedir para ser pago de acordo com qualquer uma dessas agendas.
 **10** | Criação de Novas Agendas de Pagamento | A direção da empresa pode criar uma nova agenda de  pagamento e disponibilizá-la para os empregados  escolherem, se assim desejarem. Uma agenda é especificada através de um string. Alguns exemplos  mostram as possibilidades: "**mensal 1**": _dia 1 de todo mês_ ; "**mensal $**": _último dia útil de todo mês_; "**semanal 1 segunda**": _toda semana  às segundas-feiras_; "**semanal 2 segunda**": _a cada 2 semanas às segundas-feiras_ ; etc.
+
+# CODE SMELLS
+
+* ## Código Duplicado
+  * Na classe **App** _método **Main**_ há repetições na estrutura condicional (switch case) do menu inicial.
+    * Há a repetição da verificação da lista de empregados (se está vazia).
+  * Na classe **Configs** _método **mudarInfoEmpregado**_ há repetição na estrututra condicional para cada opção que pode ser escolhida.
+  * Na classe **Configs** _métodos **novoEmpregado** e **mudarInfoEmpregado**_ há a repetição do condicional (switch case) na seleção do tipo de empregado.
+ 
+* ## Long Method 
+  * Nas classes **App** _método **Main**_ e **Configs** _método **mudarInfoEmpregado**_ há a repetição na estrutura condicional (switch case).
+  * A classe **Configs** _método **novoEmpregado**_ é demasiadamente grande, recolhe muitas informações sozinha.
+
+* ## Large Class
+  * A classe **Configs** possui muitos métodos.
+
+* ## Speculative Generality
+  * Muitos construtores, setter e getters de várias classes não são utilizados.
+
+* ## Data Class
+  * A maioria das classes apenas armazenam dados e possuem getters e setters.
+
+# Refatoração
+
+## Template Method
+Para esse tipo de solução, o problema apresentado se comporta da seguinte forma: Há uma série de passos que é repetida na mesma ordem, mas com alguma alteração que faz com que não sejam exatamente iguais. Esse padrão de projeto comportamental define o esqueleto de um algoritmo na superclasse mas deixa as subclasses sobrescreverem etapas específicas do algoritmo sem modificar sua estrutura.
+  * O problema foi solucionado com a implementação da classe **Auxiliar**, com vários métodos criados para reduzir a quantidade de código duplicado. _Métodos **empregadoViaTipo**, **estruturaMudarEmpregadoInfo** e **estruturaFolhaDePagamento**_ são exemplos.
+  * **Antes**
+      * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L21)
+      * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L213)
+      * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L416)
+// atualizar links
+
+  * **Depois**
+    * 
+## Handle Exceptcions
+  * Para tratar as exceptions existentes no código,a classe **Entradas**, a qual possui métodos para tratar a leitura de Int, String, etcs. Foi atualizada para que os métodos utilizem _try/catch_.
+
+  ## Outras alterações
+  * Um bad smell do tipo _código duplicado_ estava presente na classe **App** _método **Main**, o qual havia repetição na verificação do tamanho da lista, em todos os casos, e sempre que estava vazia, ocorria um break. Para retirar essa repetição, foi colocado  um único condicional if antes do switch case.
+ antes/depois
+  * A classe **Configs** era um bad smell _Large Class_ e foi dividida em duas, sendo criada a classe **Auxiliar** que conta com implementações novas (templates), e algumas coisas já existentes na antiga classe.
+  ANTES/ DEPOIS
+  * O _método **novoEmpregado**_, da classe **Configs** configura um bad smell _Long Method_, e o mesmo foi refatorado, sendo dividido com a classe **Auxiliar** e seus métodos.
+  Antes/Depois
+
+  * Foi criado o _método **limparConsole**_, que pode ser chamado pelo usuário para limpar o console.
+
+  * Alguns métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.
