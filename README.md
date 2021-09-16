@@ -71,14 +71,17 @@ Func | Título | Breve descrição
 Para esse tipo de solução, o problema apresentado se comporta da seguinte forma: Há uma série de passos que é repetida na mesma ordem, mas com alguma alteração que faz com que não sejam exatamente iguais. Esse padrão de projeto comportamental define o esqueleto de um algoritmo na superclasse mas deixa as subclasses sobrescreverem etapas específicas do algoritmo sem modificar sua estrutura.
   * O problema foi solucionado com a implementação da classe **Auxiliar**, com vários métodos criados para reduzir a quantidade de código duplicado. _Métodos **empregadoViaTipo**, **estruturaMudarEmpregadoInfo** e **estruturaFolhaDePagamento**_ são exemplos.
   * **Antes**
+      * [Main](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/App.java#L35) 
       * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L21)
       * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L213)
       * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/8a46013da873d93f9f09d85c1c4ea05f7279180d/src/app/Configs.java#L438)
   * **Depois**
+      * [Main](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/App.java#L11)
+        * [appMenu](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L28)
       * [novoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L21)
       * [mudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L123)
-      * [estruturaMudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L189)
-        * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L199)
+        * [estruturaMudarInfoEmpregado](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L189)
+      * [rodarFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Configs.java#L199)
         * [estruturaFolhaDePagamento](https://github.com/Jpcajueiro/Folha-De-Pagamentos/blob/main/src/app/Auxiliar.java#L167)
   
 ## Handle Exceptcions
