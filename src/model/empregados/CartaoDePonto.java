@@ -36,5 +36,4 @@ public class CartaoDePonto {
     public void setHorarioSaida(LocalTime horarioSaida) {
         this.horarioSaida = horarioSaida;
     }
-    
 }
